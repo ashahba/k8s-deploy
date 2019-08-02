@@ -56,7 +56,7 @@ pip install -r requirements.txt
 $ cp -rp inventory/sample inventory/mycluster
 $ declare -a IPS=(SPACE_SEPERATED_LIST_OF_ALL_NODES_IP_ADDRESSES>)
 $ CONFIG_FILE=inventory/mycluster/hosts.yml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
-ansible-playbook -i inventory/mycluster/hosts.yml remove-node.yml -b -v --private-key=<PATH_TO_PRIVATE_KEY_TO_ACCESS_ALL_NODES> --user=<ANSIBLE_USER>
+$ ansible-playbook -i inventory/mycluster/hosts.yml remove-node.yml -b -v --private-key=<PATH_TO_PRIVATE_KEY_TO_ACCESS_ALL_NODES> --user=<ANSIBLE_USER>
 ```
 
 ## Troubleshooting:
