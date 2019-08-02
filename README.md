@@ -59,5 +59,25 @@ $ CONFIG_FILE=inventory/mycluster/hosts.yml python3 contrib/inventory_builder/in
 $ ansible-playbook -i inventory/mycluster/hosts.yml remove-node.yml -b -v --private-key=<PATH_TO_PRIVATE_KEY_TO_ACCESS_ALL_NODES> --user=<ANSIBLE_USER>
 ```
 
+### Deploy and login to Kubernetes dashboard:
+- Deploy the dashboard:
+```
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml
+```
+- Create `admin-user`:
+```
+$ kubectl create -f dashboard-admin-user.yaml
+```
+- Retrive `admin-user` token:
+```
+$ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+```
+- Starts a proxy to the Kubernetes API server
+```
+kubectl proxy
+```
+- Navigate to http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+- Use the token retrived above and login to dashboard
+
 ## Troubleshooting:
 - If `playbook` fails to run and `masters` or `workers` fail to run, copy the certificates under `/etc/kubernetes/ssl/` from `master` node to `worker` nodes.
