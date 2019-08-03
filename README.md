@@ -59,6 +59,22 @@ $ CONFIG_FILE=inventory/mycluster/hosts.yml python3 contrib/inventory_builder/in
 $ ansible-playbook -i inventory/mycluster/hosts.yml remove-node.yml -b -v --private-key=<PATH_TO_PRIVATE_KEY_TO_ACCESS_ALL_NODES> --user=<ANSIBLE_USER>
 ```
 
+### Deploy metrics server
+- Clone `metrics-server` repo: git clone https://github.com/kubernetes-incubator/metrics-server.git and checkout `v0.3.3` tag.
+- Edit `deploy/1.8+/metrics-server-deployment.yaml` so that it reads:
+```
+containers:
+- name: metrics-server
+    image: k8s.gcr.io/metrics-server-amd64:v0.3.3
+    command:
+      - /metrics-server
+      - --kubelet-insecure-tls
+```
+- Finaly deploy the `metrics-server`:
+```
+kubectl create -f deploy/1.8+
+```
+
 ### Deploy and login to Kubernetes dashboard:
 - Deploy the dashboard:
 ```
