@@ -69,6 +69,7 @@ containers:
     command:
       - /metrics-server
       - --kubelet-insecure-tls
+      - --kubelet-preferred-address-types=InternalIP
 ```
 - Finaly deploy the `metrics-server`:
 ```
