@@ -2,6 +2,7 @@
 My Notes and helper scripts to deploy Kubernetes and KubeFlow on private data center
 
 ## Ubuntu 18.04 setup
+
 ### Individual nodes setup:
 - If behind corporate `proxy` please ensure `/etc/environment` file has the right proxy information for your network. While updating the file make sure to add individual node names to the `NO_PROXY`/`no_proxy` lists.
 - Disable `iptables`:
@@ -17,14 +18,17 @@ $ sudo ip6tables -P OUTPUT ACCEPT
 ```
 - Disable `Uncomplicated Firewall`:
 ```
-sudo systemctl stop ufw
-sudo systemctl disable ufw
+$ sudo systemctl stop ufw
+$ sudo systemctl disable ufw
 ```
 - Symlink `/etc/resolv.conf` to `/run/systemd/resolve/`:
 ```
-$ sudo -p mkdir /run/systemd/resolve
 $ sudo mkdir -p /run/systemd/resolve
-$ sudo ln -s /etc/resolv.conf /run/systemd/resolve/
+$ sudo ln -sf /etc/resolv.conf /run/systemd/resolve/
+```
+- If you want the symlink to persist accros reboots create the following crontab:
+```
+@reboot mkdir -p /run/systemd/resolve && ln -sf /etc/resolv.conf /run/systemd/resolve/
 ```
 - A user(`ANSIBLE_USER`) with `passwordless sudo` privileges have been created on all nodes.
 
@@ -47,7 +51,7 @@ $ . kubespray-venv/bin/activate
 ```
 - Install all the dependencies:
 ```
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 - In file `inventory/sample/group_vars/all/all.yml` and for `http_proxy`, `https_proxy` and `no_proxy` parameters provide accurate values if needed if you are behind corporate proxy.
 - in file `roles/bootstrap-os/defaults/main.yml` ensure to set the value of `override_system_hostname: false` otherwise your hostnames will be changed.
@@ -73,11 +77,10 @@ containers:
 ```
 - Finaly deploy the `metrics-server`:
 ```
-kubectl create -f deploy/1.8+
+$ kubectl create -f deploy/1.8+
 ```
-
 # Deploy local path provisioner
-In order to let Kubernetes utilize local host's paths in each node, deploy `local-path-provisioner` as described here:
+- In order to let Kubernetes utilize local host's paths in each node, deploy `local-path-provisioner` as described here:
 https://github.com/rancher/local-path-provisioner#deployment
 
 ### Deploy and login to Kubernetes dashboard:
@@ -85,7 +88,7 @@ https://github.com/rancher/local-path-provisioner#deployment
 ```
 $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta1/aio/deploy/recommended.yaml
 ```
-- Create `admin-user`:
+- Create a k8s dashboard `admin-user`:
 ```
 $ kubectl create -f dashboard-admin-user.yaml
 ```
