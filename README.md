@@ -106,7 +106,7 @@ kubectl proxy
 # Deploy Kubeflow
 ### Deploy MetalLB
 ```
-ansible-playbook -i inventory/mycluster/hosts.yml contrib/metallb/metallb.yml  -b -v --user=aipguser --private-key=~/.ssh/ashahba.priv
+ansible-playbook -i inventory/mycluster/hosts.yml contrib/metallb/metallb.yml -b -v --private-key=<PATH_TO_PRIVATE_KEY_TO_ACCESS_ALL_NODES> --user=<ANSIBLE_USER>
 ```
 
 ### Deploy pvs required for Kubeflow deployment:
