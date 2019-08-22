@@ -1,0 +1,51 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: kf-pv1
+spec:
+  storageClassName:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/kf-pv1"
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: kf-pv2
+spec:
+  storageClassName:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/kf-pv2"
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: kf-pv3
+spec:
+  storageClassName:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/kf-pv3"
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: kf-pv4
+spec:
+  storageClassName:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/kf-pv4"

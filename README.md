@@ -103,5 +103,16 @@ kubectl proxy
 - Navigate to http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 - Use the token retrived above and login to dashboard
 
+# Deploy Kubeflow
+### Deploy MetalLB
+```
+ansible-playbook -i inventory/mycluster/hosts.yml contrib/metallb/metallb.yml  -b -v --user=aipguser --private-key=~/.ssh/ashahba.priv
+```
+
+### Deploy pvs required for Kubeflow deployment:
+```
+kubectl create -f kf_pvs.yaml
+```
+
 ## Troubleshooting:
 - If `playbook` fails to run and `masters` or `workers` fail to run, copy the certificates under `/etc/kubernetes/ssl/` from `master` node to `worker` nodes.
